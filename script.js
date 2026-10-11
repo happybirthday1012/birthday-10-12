@@ -1,55 +1,74 @@
 
 document.addEventListener("DOMContentLoaded", () => {
-  // Opening theater curtains
+  // =========================
+  // ELEMENTS
+  // =========================
+
   const curtains = document.getElementById("curtains");
   const openButton = document.getElementById("openButton");
   const invitation = document.getElementById("invitation");
+  const surpriseButton = document.getElementById("surpriseButton");
+  const birthdayMessage = document.getElementById("birthdayMessage");
+  const cake = document.querySelector(".cake");
+  const stars = document.getElementById("stars");
+  const confettiContainer = document.getElementById("confetti");
+  const flames = document.querySelectorAll(".candle .flame");
+
+  // =========================
+  // OPENING CURTAINS
+  // =========================
 
   let curtainsOpened = false;
 
   if (curtains && openButton && invitation) {
     openButton.addEventListener("click", () => {
       if (curtainsOpened) return;
+
       curtainsOpened = true;
+      openButton.disabled = true;
 
       curtains.classList.add("open");
 
+      // Fade in the birthday invitation.
       setTimeout(() => {
         invitation.classList.add("visible");
       }, 700);
 
+      // Remove the curtain overlay after the animation.
       setTimeout(() => {
         curtains.style.display = "none";
-      }, 2200);
+      }, 2300);
     });
   }
 
-  // Create twinkling stars
-  const stars = document.getElementById("stars");
+  // =========================
+  // TWINKLING STARS
+  // =========================
 
-  if (stars && !stars.children.length) {
-    for (let i = 0; i < 45; i++) {
+  if (stars && stars.children.length === 0) {
+    for (let i = 0; i < 65; i++) {
       const star = document.createElement("span");
+
       star.className = "star";
       star.textContent = "✦";
       star.style.left = Math.random() * 100 + "%";
       star.style.top = Math.random() * 100 + "%";
-      star.style.fontSize = (6 + Math.random() * 12) + "px";
+      star.style.fontSize = (8 + Math.random() * 12) + "px";
       star.style.animationDelay = Math.random() * 3 + "s";
+      star.style.animationDuration =
+        (1.5 + Math.random() * 2) + "s";
+
       stars.appendChild(star);
     }
   }
 
-  // Birthday candle surprise
-  const surpriseButton = document.getElementById("surpriseButton");
-  const flames = document.querySelectorAll(".candle .flame");
-  const cake = document.querySelector(".cake");
-  const birthdayMessage = document.getElementById("birthdayMessage");
-  const confettiContainer = document.getElementById("confetti");
+  // =========================
+  // ANIMATION STATE
+  // =========================
 
   let isAnimating = false;
   let animationTimers = [];
-  let confettiTimeout;
+  let confettiTimeout = null;
 
   function clearAnimationTimers() {
     animationTimers.forEach(timer => clearTimeout(timer));
@@ -61,6 +80,10 @@ document.addEventListener("DOMContentLoaded", () => {
     animationTimers.push(timer);
   }
 
+  // =========================
+  // ANIMATED CONFETTI
+  // =========================
+
   function launchConfetti() {
     if (!confettiContainer) return;
 
@@ -70,24 +93,33 @@ document.addEventListener("DOMContentLoaded", () => {
       "#a779d6",
       "#c5a0ed",
       "#e1ccff",
-      "#8c59b0"
+      "#f0a2cb",
+      "#ffe0f0",
+      "#ffd166"
     ];
 
     confettiContainer.replaceChildren();
-    clearTimeout(confettiTimeout);
 
-    for (let i = 0; i < 90; i++) {
+    if (confettiTimeout) {
+      clearTimeout(confettiTimeout);
+    }
+
+    for (let i = 0; i < 100; i++) {
       const piece = document.createElement("span");
+
       piece.className = "confetti-piece";
 
       if (i % 3 === 0) {
         piece.classList.add("circle");
       }
 
-      piece.style.left = Math.random() * 100 + "vw";
+      piece.style.left = Math.random() * 100 + "%";
       piece.style.backgroundColor =
         colors[Math.floor(Math.random() * colors.length)];
-      piece.style.animationDelay = Math.random() * 1.8 + "s";
+
+      piece.style.animationDelay =
+        Math.random() * 1.5 + "s";
+
       piece.style.animationDuration =
         (2.5 + Math.random() * 2) + "s";
 
@@ -96,12 +128,21 @@ document.addEventListener("DOMContentLoaded", () => {
 
     confettiTimeout = setTimeout(() => {
       confettiContainer.replaceChildren();
-    }, 7000);
+    }, 6500);
   }
 
+  // =========================
+  // BIRTHDAY CANDLE SURPRISE
+  // =========================
+
   function startBirthdaySurprise() {
-    if (isAnimating || !surpriseButton || !cake ||
-        !birthdayMessage || !confettiContainer) {
+    if (
+      isAnimating ||
+      !surpriseButton ||
+      !cake ||
+      !birthdayMessage ||
+      !confettiContainer
+    ) {
       return;
     }
 
@@ -110,48 +151,78 @@ document.addEventListener("DOMContentLoaded", () => {
     surpriseButton.textContent = "Making a wish...";
 
     clearAnimationTimers();
-    clearTimeout(confettiTimeout);
+
+    if (confettiTimeout) {
+      clearTimeout(confettiTimeout);
+      confettiTimeout = null;
+    }
+
     confettiContainer.replaceChildren();
 
-    // Reset the cake and hide the original message
+    // Reset the cake for the animation.
     cake.classList.remove("lit");
+
+    // Hide the message until the animation finishes.
     birthdayMessage.classList.add("hidden");
 
-    // Turn off every candle before relighting them
+    // Reset every candle flame.
     flames.forEach(flame => {
+      flame.style.animation = "none";
       flame.style.transition = "none";
       flame.style.opacity = "0";
       flame.style.transform = "translateX(-50%) scale(0)";
     });
 
-    // Force the browser to apply the reset before animating
+    // Apply the reset before starting the animation.
     void cake.offsetWidth;
 
+    // Light the four candles one at a time.
     flames.forEach((flame, index) => {
       schedule(() => {
         flame.style.transition =
           "opacity .3s ease, transform .3s ease";
+
         flame.style.opacity = "1";
-        flame.style.transform = "translateX(-50%) scale(1)";
+        flame.style.transform =
+          "translateX(-50%) scale(1)";
       }, (index + 1) * 500);
     });
 
-    // Glow and confetti after the candles relight
+    // Add the glow and confetti.
     schedule(() => {
       cake.classList.add("lit");
+
+      flames.forEach(flame => {
+        flame.style.animation = "";
+      });
+
       launchConfetti();
     }, 2300);
 
-    // Reveal your existing long birthday message
+    // Reveal the original birthday message.
     schedule(() => {
       birthdayMessage.classList.remove("hidden");
+
       surpriseButton.textContent = "Replay ↻";
       surpriseButton.disabled = false;
+
       isAnimating = false;
+
+      // Gently scroll to the revealed message.
+      setTimeout(() => {
+        birthdayMessage.scrollIntoView({
+          behavior: "smooth",
+          block: "start"
+        });
+      }, 150);
     }, 3000);
   }
 
   if (surpriseButton) {
-    surpriseButton.addEventListener("click", startBirthdaySurprise);
+    surpriseButton.addEventListener(
+      "click",
+      startBirthdaySurprise
+    );
   }
+
 });
