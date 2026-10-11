@@ -556,3 +556,24 @@ button {
   }
 }
 
+.surprise-button {
+  display: inline-block;
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+
+.surprise-button:disabled {
+  opacity: 1;
+  cursor: pointer;
+}
+
+.birthday-message.hidden {
+  display: none !important;
+}
+
+.birthday-message:not(.hidden) {
+  display: block;
+  visibility: visible;
+  opacity: 1;
+}
