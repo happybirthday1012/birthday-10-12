@@ -146,10 +146,11 @@ button {
 .candles {
   position: absolute;
   z-index: 5;
-  top: 4px;
+  top: -8px;
   left: 50%;
   display: flex;
   justify-content: space-between;
+  align-items: flex-end;
   width: 104px;
   transform: translateX(-50%);
 }
