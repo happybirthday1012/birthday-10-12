@@ -1,4 +1,4 @@
-```javascript
+
 // Open the theater curtains
 const curtains = document.getElementById("curtains");
 const openButton = document.getElementById("openButton");
@@ -118,4 +118,4 @@ function launchConfetti() {
     confettiContainer.replaceChildren();
   }, 7000);
 }
-```
+
