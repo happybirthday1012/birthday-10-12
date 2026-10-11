@@ -25,28 +25,35 @@ body {
 button {
   font-family: inherit;
   cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
 }
 
-/* Birthday page */
+/* =========================
+   BIRTHDAY INVITATION
+========================= */
+
 .invitation {
   position: relative;
   min-height: 100vh;
   overflow: hidden;
   opacity: 0;
   visibility: hidden;
-  transition: opacity 1.6s ease, visibility 1.6s;
+  pointer-events: none;
+  transition: opacity 1.6s ease, visibility 0s linear 1.6s;
 }
 
 .invitation.visible {
   opacity: 1;
   visibility: visible;
+  pointer-events: auto;
+  transition: opacity 1.6s ease, visibility 0s;
 }
 
 .birthday-content {
   position: relative;
-  z-index: 1;
+  z-index: 2;
   width: min(100%, 760px);
-  margin: auto;
+  margin: 0 auto;
   padding: 45px 24px 70px;
   text-align: center;
 }
@@ -66,7 +73,10 @@ button {
   line-height: 1.6;
 }
 
-/* Cake scene */
+/* =========================
+   CAKE SCENE
+========================= */
+
 .cake-scene {
   position: relative;
   display: flex;
@@ -90,6 +100,7 @@ button {
 }
 
 /* Cake layers */
+
 .cake-layer {
   position: relative;
   flex-shrink: 0;
@@ -121,7 +132,8 @@ button {
   background: linear-gradient(110deg, #7950a7, #4c286f);
 }
 
-/* Frosting and sprinkles */
+/* Frosting */
+
 .frosting {
   position: absolute;
   z-index: 2;
@@ -146,11 +158,11 @@ button {
   height: 7px;
   background: radial-gradient(circle, #fff 2px, transparent 3px);
   background-size: 20px 8px;
+  pointer-events: none;
 }
 
-/* FIXED CANDLE POSITION
-   This container must be inside .cake-top in index.html.
-   The bottom of each candle aligns with the top surface. */
+/* Candles */
+
 .candles {
   position: absolute;
   z-index: 5;
@@ -178,7 +190,8 @@ button {
   );
 }
 
-/* Candle flames */
+/* Flames */
+
 .flame {
   position: absolute;
   left: 50%;
@@ -200,6 +213,8 @@ button {
 }
 
 .cake.lit .flame {
+  opacity: 1;
+  transform: translateX(-50%) scale(1);
   animation: flicker .22s ease-in-out infinite alternate;
 }
 
@@ -215,6 +230,7 @@ button {
 }
 
 /* Cake glow */
+
 .cake-glow {
   position: absolute;
   z-index: -1;
@@ -224,14 +240,18 @@ button {
   background: #812bc533;
   filter: blur(45px);
   opacity: 0;
-  transition: opacity .8s;
+  transition: opacity .8s ease;
+  pointer-events: none;
 }
 
 .cake.lit .cake-glow {
   opacity: 1;
 }
 
-/* Presents */
+/* =========================
+   PRESENTS
+========================= */
+
 .presents {
   position: absolute;
   z-index: 1;
@@ -240,6 +260,7 @@ button {
   flex-direction: column;
   align-items: center;
   gap: 12px;
+  pointer-events: none;
 }
 
 .presents-left {
@@ -309,32 +330,72 @@ button {
   transform: rotate(70deg);
 }
 
-/* Buttons */
+/* =========================
+   BUTTONS
+========================= */
+
 .surprise-button,
 #openButton {
-  border: 0;
-  color: #21102f;
-  background: linear-gradient(100deg, #b991ec, #f0a2cb);
+  display: inline-block;
+  position: relative;
+  z-index: 30;
+  border: 1px solid #ffffff99;
+  border-radius: 999px;
+  color: #fff;
+  background: linear-gradient(135deg, #a661e6, #7540a6, #f0a2cb);
   box-shadow: 0 0 22px #b57ae644;
-  transition: transform .25s, box-shadow .25s;
+  font-family: Georgia, serif;
+  font-weight: normal;
+  text-align: center;
+  text-decoration: none;
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  cursor: pointer;
+  transition:
+    transform .25s ease,
+    box-shadow .25s ease,
+    filter .25s ease;
 }
 
 .surprise-button {
   margin: 12px 0 28px;
   padding: 15px 28px;
-  border-radius: 999px;
-  font-family: Georgia, serif;
   font-size: 17px;
+}
+
+#openButton {
+  padding: 12px 26px;
+  font-size: 25px;
+  color: white;
+  background: linear-gradient(135deg, #a661e6, #4d207e);
 }
 
 .surprise-button:hover,
 #openButton:hover {
   transform: translateY(-2px);
   box-shadow: 0 0 30px #d7a0ff88;
+  filter: brightness(1.12);
 }
 
-/* Birthday message */
+.surprise-button:active,
+#openButton:active {
+  transform: scale(.97);
+}
+
+.surprise-button:disabled {
+  opacity: 1;
+  cursor: pointer;
+}
+
+/* =========================
+   BIRTHDAY MESSAGE
+========================= */
+
 .birthday-message {
+  position: relative;
+  z-index: 3;
+  width: 100%;
   margin: 15px auto 0;
   padding: 25px;
   border: 1px solid #a66bd866;
@@ -354,6 +415,7 @@ button {
   color: #ffffffdc;
   font-size: 17px;
   line-height: 1.9;
+  white-space: pre-line;
 }
 
 .birthday-message .signoff {
@@ -361,8 +423,11 @@ button {
   color: #f6d9ff;
 }
 
-.hidden {
-  display: none;
+/* Hidden elements */
+
+.hidden,
+.birthday-message.hidden {
+  display: none !important;
 }
 
 @keyframes messageIn {
@@ -376,9 +441,13 @@ button {
   }
 }
 
-/* Twinkling stars */
+/* =========================
+   TWINKLING STARS
+========================= */
+
 .stars {
   position: absolute;
+  z-index: 0;
   inset: 0;
   overflow: hidden;
   pointer-events: none;
@@ -393,7 +462,7 @@ button {
 @keyframes twinkle {
   from {
     opacity: .35;
-    transform: scale(.75) rotate(0);
+    transform: scale(.75) rotate(0deg);
   }
   to {
     opacity: 1;
@@ -401,7 +470,10 @@ button {
   }
 }
 
-/* Opening curtains */
+/* =========================
+   OPENING CURTAINS
+========================= */
+
 .curtains {
   position: fixed;
   z-index: 20;
@@ -411,12 +483,18 @@ button {
   justify-content: center;
   overflow: hidden;
   background: #10071b;
+  transition: visibility 0s linear 2.2s;
+}
+
+.curtains.open {
+  visibility: hidden;
+  pointer-events: none;
 }
 
 .curtain {
   position: absolute;
   top: 0;
-  width: 50%;
+  width: 50.5%;
   height: 100%;
   background: repeating-linear-gradient(
     90deg,
@@ -427,6 +505,7 @@ button {
   );
   box-shadow: inset 0 0 45px #08030f88;
   transition: transform 2.1s cubic-bezier(.65, 0, .35, 1);
+  will-change: transform;
 }
 
 .curtain::after {
@@ -436,7 +515,10 @@ button {
   width: 3px;
   height: 100%;
   background: linear-gradient(
-    180deg, #d7b67b44, #e8cc91, #d7b67b44
+    180deg,
+    #d7b67b44,
+    #e8cc91,
+    #d7b67b44
   );
 }
 
@@ -464,19 +546,27 @@ button {
   transform: translateX(105%);
 }
 
+/* Opening text and button */
+
 .opening-content {
   position: relative;
-  z-index: 2;
+  z-index: 25;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 18px;
-  transition: opacity .45s, transform .45s;
+  padding: 20px;
+  text-align: center;
+  opacity: 1;
+  visibility: visible;
+  transition: opacity .45s ease, transform .45s ease;
 }
 
 .curtains.open .opening-content {
   opacity: 0;
+  visibility: hidden;
   transform: translateY(-12px);
+  pointer-events: none;
 }
 
 .opening-caption {
@@ -485,16 +575,10 @@ button {
   letter-spacing: 1px;
 }
 
-#openButton {
-  padding: 12px 26px;
-  border: 1px solid #ffffff99;
-  border-radius: 999px;
-  color: white;
-  background: linear-gradient(135deg, #a661e6, #4d207e);
-  font-size: 25px;
-}
+/* =========================
+   CONFETTI
+========================= */
 
-/* Confetti */
 #confetti {
   position: fixed;
   z-index: 10;
@@ -523,10 +607,17 @@ button {
   }
 }
 
-/* Small screens */
+/* =========================
+   RESPONSIVE LAYOUT
+========================= */
+
 @media (max-width: 420px) {
   .birthday-content {
     padding: 35px 16px 55px;
+  }
+
+  .birthday-title {
+    font-size: clamp(3rem, 14vw, 4.5rem);
   }
 
   .subtitle {
@@ -551,29 +642,43 @@ button {
     height: 34px;
   }
 
+  .cake {
+    transform: scale(.9);
+  }
+
   .birthday-message {
     padding: 18px;
   }
+
+  .birthday-message h2 {
+    font-size: 25px;
+  }
+
+  .birthday-message p {
+    font-size: 16px;
+  }
+
+  .opening-caption {
+    font-size: 18px;
+  }
+
+  #openButton {
+    font-size: 21px;
+  }
 }
 
-.surprise-button {
-  display: inline-block;
-  opacity: 1;
-  visibility: visible;
-  pointer-events: auto;
-}
+/* Respect reduced-motion preferences */
 
-.surprise-button:disabled {
-  opacity: 1;
-  cursor: pointer;
-}
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
 
-.birthday-message.hidden {
-  display: none !important;
-}
-
-.birthday-message:not(.hidden) {
-  display: block;
-  visibility: visible;
-  opacity: 1;
+  *,
+  *::before,
+  *::after {
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .01ms !important;
+  }
 }
