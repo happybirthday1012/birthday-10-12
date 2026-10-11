@@ -1,5 +1,5 @@
 
-<!DOCTYPE html>
+<!<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -10,41 +10,44 @@
 </head>
 <body>
 
-  <!-- Opening curtains -->
+  <!-- OPENING CURTAINS -->
   <div class="curtains" id="curtains">
     <div class="curtain curtain-left"></div>
     <div class="curtain curtain-right"></div>
 
     <div class="opening-content" id="openingContent">
       <p class="opening-caption">A little surprise for you</p>
-      <button id="openButton" aria-label="Open your birthday surprise">
+      <button id="openButton" type="button"
+        aria-label="Open your birthday surprise">
         ♡
       </button>
     </div>
   </div>
 
-  <!-- Birthday invitation -->
+  <!-- BIRTHDAY INVITATION -->
   <main id="invitation" class="invitation">
     <div id="stars" class="stars" aria-hidden="true"></div>
     <div id="confetti" aria-hidden="true"></div>
 
     <section class="birthday-content">
+
       <h1 class="birthday-title">Happy Birthday!</h1>
 
       <p class="subtitle">
         Today marks your 16th birthday, October 12 :)
       </p>
 
-      
-      <!-- Cake and presents -->
-      <div class="cake-scene" aria-label="A purple birthday cake with four candles and four presents">
+      <!-- CAKE AND PRESENTS -->
+      <div class="cake-scene"
+        aria-label="A purple birthday cake with four candles and four presents">
 
         <div class="presents presents-left">
           <div class="gift gift-small"><span></span></div>
           <div class="gift gift-large"><span></span></div>
         </div>
 
-        <div class="cake">
+        <div class="cake" id="cake">
+
           <div class="cake-layer cake-top">
             <div class="candles">
               <div class="candle"><span class="flame"></span></div>
@@ -73,14 +76,24 @@
           <div class="gift gift-large"><span></span></div>
           <div class="gift gift-small"><span></span></div>
         </div>
+
       </div>
 
-      <!-- Your original long birthday message -->
+      <!-- SURPRISE BUTTON -->
+      <button
+        id="surpriseButton"
+        class="surprise-button"
+        type="button"
+      >
+        Open Your Birthday Surprise ♡
+      </button>
+
+      <!-- YOUR ORIGINAL BIRTHDAY MESSAGE -->
       <article id="birthdayMessage" class="birthday-message hidden">
+
         <h2>Today is your day! 🎂</h2>
 
-        <p>
-          A joyful, lively birthday to you, baby! Let me start off with a
+        <p>A joyful, lively birthday to you, baby! Let me start off with a
           reminder of how amazing and capable you are—you make every moment
           worthwhile and extra special just by simply being here. I hope you
           know that's how important and cherished you are to me and by many.
@@ -89,11 +102,9 @@
           one of the strongest people I know, and I'm always, always proud of
           you for coming this far and for reaching this point in your life.
           A tough path all the way here and the next, and yet your drive and
-          strength prevail—I am happy to see where you are now. :)
-        </p>
+          strength prevail—I am happy to see where you are now. :)</p>
 
-        <p>
-          I wish you all the happiness and success in every aspect. Whenever
+        <p>I wish you all the happiness and success in every aspect. Whenever
           things get rough, it's totally okay to take a moment for yourself
           and slow down. You don't have to appear fine and capable all the
           time; it's everyone's first time living, and it's absolutely okay
@@ -103,21 +114,17 @@
           want to; you could have times when you're having complications
           figuring things out, and you could tell me every single one of the
           things you think that makes you feel troubled, and I'll never tire
-          of reminding you how loved you are.
-        </p>
+          of reminding you how loved you are.</p>
 
-        <p>
-          What I want for you is for you to choose what you've been wanting
+        <p>What I want for you is for you to choose what you've been wanting
           to do. Take that path and don't look back on dictations and words
           that don't even shape who you are. Continue on doing the things you
           feel at ease in, where you don't have to pretend and carry the burden
           of uncertainty. You are you, you are your own person, and I believe
           in you. It's your day—own it, live up to it, and most importantly,
-          find peace and happiness in it.
-        </p>
+          find peace and happiness in it.</p>
 
-        <p>
-          I love you, baby. Not because of what you're able to do for me, but
+        <p>I love you, baby. Not because of what you're able to do for me, but
           because it is the most natural thing to feel towards you. I love
           loving you and being in love with you. Genuinely, you are the most
           thoughtful and caring person in my life, and I will always choose
@@ -125,14 +132,124 @@
           yourself—you're you, and that's what matters the most. Please, do
           enjoy this very special day. Happy, happy birthday, baby. May your
           days be filled with radiant moments, beautiful memories, and endless
-          reasons to smile and keep going. You deserve so much happiness. 💜💜
-        </p>
+          reasons to smile and keep going. You deserve so much happiness. 💜💜</p>
 
         <p class="signoff">Happy Birthday! 🎂</p>
+
       </article>
+
     </section>
   </main>
 
-  <script src="script.js"></script>
+  <!-- PAGE INTERACTIONS -->
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const curtains = document.getElementById("curtains");
+      const openButton = document.getElementById("openButton");
+      const invitation = document.getElementById("invitation");
+      const surpriseButton = document.getElementById("surpriseButton");
+      const birthdayMessage = document.getElementById("birthdayMessage");
+      const cake = document.getElementById("cake");
+      const stars = document.getElementById("stars");
+      const confetti = document.getElementById("confetti");
+
+      if (
+        !curtains || !openButton || !invitation ||
+        !surpriseButton || !birthdayMessage || !cake ||
+        !stars || !confetti
+      ) {
+        console.error("A birthday page element is missing.");
+        return;
+      }
+
+      // Create scattered, twinkling star shapes.
+      for (let i = 0; i < 65; i++) {
+        const star = document.createElement("span");
+        star.className = "star";
+        star.textContent = "★";
+        star.style.left = Math.random() * 100 + "%";
+        star.style.top = Math.random() * 100 + "%";
+        star.style.fontSize = (8 + Math.random() * 13) + "px";
+        star.style.animationDelay = (Math.random() * 3) + "s";
+        star.style.animationDuration = (1.5 + Math.random() * 2.5) + "s";
+        stars.appendChild(star);
+      }
+
+      // Open the curtains and reveal the invitation.
+      openButton.addEventListener("click", () => {
+        openButton.disabled = true;
+        curtains.classList.add("open");
+
+        // Start fading in the invitation as the curtains move.
+        requestAnimationFrame(() => {
+          invitation.classList.add("visible");
+        });
+
+        // Remove the curtains after the opening animation.
+        window.setTimeout(() => {
+          curtains.style.display = "none";
+        }, 2300);
+      });
+
+      // Create animated confetti.
+      function launchConfetti() {
+        const colors = [
+          "#e4ccff",
+          "#f0a2cb",
+          "#ffe0f0",
+          "#c5a0ed",
+          "#ffd166",
+          "#ffffff"
+        ];
+
+        for (let i = 0; i < 110; i++) {
+          const piece = document.createElement("span");
+          piece.className = "confetti-piece";
+
+          if (Math.random() > 0.65) {
+            piece.classList.add("circle");
+          }
+
+          piece.style.left = Math.random() * 100 + "%";
+          piece.style.backgroundColor =
+            colors[Math.floor(Math.random() * colors.length)];
+          piece.style.animationDelay = (Math.random() * 1.8) + "s";
+          piece.style.animationDuration = (2.5 + Math.random() * 2.5) + "s";
+          piece.style.transform =
+            "rotate(" + Math.random() * 360 + "deg)";
+
+          confetti.appendChild(piece);
+
+          window.setTimeout(() => {
+            piece.remove();
+          }, 7500);
+        }
+      }
+
+      // Reveal the original birthday message.
+      surpriseButton.addEventListener("click", () => {
+        if (!birthdayMessage.classList.contains("hidden")) {
+          birthdayMessage.scrollIntoView({
+            behavior: "smooth",
+            block: "start"
+          });
+          return;
+        }
+
+        birthdayMessage.classList.remove("hidden");
+        cake.classList.add("lit");
+        surpriseButton.textContent = "Your Birthday Message ♡";
+        launchConfetti();
+
+        window.setTimeout(() => {
+          birthdayMessage.scrollIntoView({
+            behavior: "smooth",
+            block: "start"
+          });
+        }, 150);
+      });
+    });
+  </script>
+
 </body>
 </html>
